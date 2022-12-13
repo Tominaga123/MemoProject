@@ -161,7 +161,7 @@ class MemoFrame extends JFrame implements ActionListener, WindowListener,Runnabl
 			preTitle = textField.getText(); //変更前のタイトルを取得
 		}else if(ae.getSource() == titleButton2){
 			//ディレクトリに保存されている当該メモファイルの名前を変更する
-			//他のファイルと名前が重複している場合はそのメモを上書きするか確認 「名前(n+1)」の標記にするでいいのでは????????????????????
+			//他のファイルと名前が重複している場合はそのメモを上書きするか確認 「タイトル(n)」の標記にするでいいのでは????????????????????
 			//メモ一覧の名前も変える。
 			newTitle = textField.getText(); //変更後のタイトルを取得
 			if(preTitle.equals(newTitle)) { //変更前後のタイトルに変化がなければ何もせずコンポーネントを元に戻す
@@ -174,7 +174,7 @@ class MemoFrame extends JFrame implements ActionListener, WindowListener,Runnabl
 			file = new File(path + "\\" + newTitle + ".txt"); //renameToメソッドを使用するために新タイトルのファイルを生成
 				if(file.exists()) {
 					System.out.println("ファイル名 [" + newTitle + "] は既に存在しています。" + "\r\n" + "上書きしますか?");
-					//同じ名前のファイルが既に存在しています。 9上書き、10キャンセル 「名前(n+1)」の標記にする選択肢を追加しては??????????????????????????
+					//同じ名前のファイルが既に存在しています。 9上書き、10キャンセル 「タイトル(n)」の標記にする選択肢を追加しては??????????????????????????
 					flag = 8;
 					ConfirmFrame cm = new ConfirmFrame(newTitle); //新しいフレームを生成して選択を待つ
 					Thread thread = new Thread(this);
