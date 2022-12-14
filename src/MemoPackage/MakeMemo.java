@@ -74,7 +74,7 @@ class MemoFrame extends JFrame implements ActionListener, WindowListener,Runnabl
 		if(dir.mkdir()) {
 			System.out.println("メモ保管庫を作成しました");
 		} else {
-			System.out.println("メモ保管庫の作成に失敗しましたか、既に作成されています");
+			System.out.println("メモ保管庫の作成に失敗したか、既に作成されています");
 		}
 		path = dir.getAbsolutePath(); //メモ保管庫へのパスを取得
 		System.out.println(path);
