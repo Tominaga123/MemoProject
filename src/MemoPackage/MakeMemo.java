@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 class MemoFrame extends JFrame implements ActionListener, WindowListener,Runnable{
 
@@ -191,28 +192,32 @@ class MemoFrame extends JFrame implements ActionListener, WindowListener,Runnabl
 		}else if(ae.getSource() == referenceButton) { 
 			//他のファイルから文章を参照する
 			//直前に作業していたメモの変更が保存されていない場合は、保存するか確認画面を出す
+		    FileNameExtensionFilter filter = new FileNameExtensionFilter("テキストファイル(*.txt)", "txt");
+		    chooser.setFileFilter(filter);
 			chooser.setSelectedFile(new File(path)); //デフォルトでMemoProjectのフォルダが開くようにする
-			chooser.showOpenDialog(this); //新ウィンドウを開く
-			fileChoose = chooser.getSelectedFile();
-			newSentence = textArea.getText(); //変更の有無を確認するために文章を取得
-			if(fileChoose != null) { //ファイルが選択されていれば文章を取得する ※//「取消」を押してもファイルが選択されていれば、選択されたことになる!!!!!!!!!!!!!!!!!!!!!!!!!!!
-				 if(preSentence.equals(newSentence)) { //文章に変化がなければ何もしない
-					 choose();
-					 String str = newTitle.replace( "(" + n + ")", ""); //タイトルがナンバリングされている場合、ナンバリングを削除したものをコンソールで通知する
-					 System.out.println("[" + str + "] を参照しました");
-					 System.out.println(str == null);
-					 return;
-					//preSentenceを更新すると、chooseメソッドによる文章の変更がなかったことになるので、preSentence = textArea.getText();は必要なし
-				 } else {
-					 //変更が保存されていません。flag : 12保存、13保存しない、14キャンセル
-					 flag = 11; 
-					 ConfirmFrame cm = new ConfirmFrame(); //新しいフレームを生成して選択を待つ
-					 Thread thread = new Thread(this);
-					 thread.start();
-					 return;
-				 }
-			}else {
-				System.out.println("参照は選択されませんでした"); 
+			if(chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) { //新ウィンドウを開き、「開く」ボタンが押された場合
+				fileChoose = chooser.getSelectedFile();
+				newSentence = textArea.getText(); //変更の有無を確認するために文章を取得
+				if(fileChoose != null) { //ファイルが選択されていれば文章を取得する ※//「取消」を押してもファイルが選択されていれば、選択されたことになる!!!!!!!!!!!!!!!!!!!!!!!!!!!
+					 if(preSentence.equals(newSentence)) { //文章に変化がなければ何もしない
+						 choose();
+						 String str = newTitle.replace( "(" + n + ")", ""); //タイトルがナンバリングされている場合、ナンバリングを削除したものをコンソールで通知する
+						 System.out.println("[" + str + "] を参照しました");
+						//preSentenceを更新すると、chooseメソッドによる文章の変更がなかったことになるので、preSentence = textArea.getText();は必要なし
+					 } else {
+						 //変更が保存されていません。flag : 12保存、13保存しない、14キャンセル
+						 flag = 11; 
+						 ConfirmFrame cm = new ConfirmFrame(); //新しいフレームを生成して選択を待つ
+						 Thread thread = new Thread(this);
+						 thread.start();
+						 return;
+					 }
+				}else {
+					System.out.println("ファイルが選択されていません"); 
+					//preSentenceを更新すると、保存してないのに文章が変更されていてもなかったことになるので、preSentence = textArea.getText();は必要なし
+				}
+			} else {
+				System.out.println("「取消」もしくは×が押されました"); 
 				//preSentenceを更新すると、保存してないのに文章が変更されていてもなかったことになるので、preSentence = textArea.getText();は必要なし
 			}
 		}else {  for(int i = 0; i < memoItems.size(); i++) { //メモ一覧内のどのメモタイトルが押されたか、メモ一覧を順に確認する
