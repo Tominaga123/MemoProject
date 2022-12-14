@@ -207,10 +207,10 @@ class MemoFrame extends JFrame implements ActionListener, WindowListener,Runnabl
 				}else {
 					System.out.println("ファイルが選択されていません"); 
 					//preSentenceを更新すると、保存してないのに文章が変更されていてもなかったことになるので、preSentence = textArea.getText();は必要なし
-				}
-			} else {
-				System.out.println("「取消」もしくは×が押されました"); 
-				//preSentenceを更新すると、保存してないのに文章が変更されていてもなかったことになるので、preSentence = textArea.getText();は必要なし
+			}
+		} else {
+			System.out.println("「取消」もしくは×が押されました"); 
+			//preSentenceを更新すると、保存してないのに文章が変更されていてもなかったことになるので、preSentence = textArea.getText();は必要なし
 			}
 		}else {  for(int i = 0; i < memoItems.size(); i++) { //メモ一覧内のどのメモタイトルが押されたか、メモ一覧を順に確認する
 					 if(ae.getSource() == memoItems.get(i)) { 
